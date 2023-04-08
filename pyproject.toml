@@ -7,6 +7,9 @@ authors = ["None"]
 [tool.poetry.dependencies]
 python = "3.9.5"
 Django = "^4.2"
+celery = "^5.2.7"
+django-redis = "^5.2.0"
+celery-progress = "^0.3"
 
 [tool.poetry.dev-dependencies]
 

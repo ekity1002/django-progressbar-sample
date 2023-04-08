@@ -1,73 +1,10 @@
 version: '3'
 
 services:
-  db_server:
-    container_name: db_server
-    build:
-      context: .
-      dockerfile: ./docker/db_server/Dockerfile
+  redis:
+    image: "redis:latest"
+    container_name: redis
     ports:
-      - 5432:5432
+      - "6379:6379"
     volumes:
-      - dbdata:/var/lib/postgresql/data
-    env_file:
-      - ./docker/db_server/.env
-    networks:
-      private_subnet_2:
-        ipv4_address: 192.168.20.2
-
-  object_storage:
-    container_name: object_storage
-    build:
-      context: .
-      dockerfile: ./docker/object_storage/Dockerfile
-    ports:
-      - 8000:8000
-    volumes:
-      - objectdata:/usr/src/app/localData
-      - metadata:/usr/src/app/localMetadata
-    env_file:
-      - ./docker/object_storage/.env
-    networks:
-      private_subnet:
-        ipv4_address: 192.168.10.3
-
-  setting:
-    container_name: setting
-    build:
-      context: .
-      dockerfile: ./docker/setting/Dockerfile
-    env_file:
-      - ./docker/setting/.env
-    networks:
-      private_subnet:
-        ipv4_address: 192.168.10.13
-    depends_on:
-      - "object_storage"
-
-networks:
-  private_subnet:
-    name: private_subnet
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.10.0/24
-          gateway: 192.168.10.254
-
-  private_subnet_2:
-    name: private_subnet_2
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.20.0/24
-          gateway: 192.168.20.254
-
-volumes:
-  dbdata:
-    name: dbdata
-  objectdata:
-    name: objectdata
-  metadata:
-    name: metadata
+      - "./data/redis:/data"
