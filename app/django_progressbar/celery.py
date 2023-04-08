@@ -5,8 +5,10 @@ from celery import Celery
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_progressbar.settings")
 
-# project名を設定
-app = Celery("django_progressbar")
+# Celery app作成
+# project名, brokerのホストを指定
+app = Celery("django_progressbar", broker="redis://localhost:6379/0")
+app.conf.result_backend = "redis://localhost:6379/0"
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

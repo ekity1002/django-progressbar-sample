@@ -1,17 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>ファイルアップロード</h1>
+<h3>zipファイルをアップロードしてください</h3>
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">アップロード</button>
 </form>
+
 <div class='progress-wrapper'>
   <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
 </div>
 <div id="progress-bar-message">Waiting for progress to start...</div>
+<div id="celery-result">
+</div>
 
-<script src="{% static 'celery_progress/celery_progress.js' %}"></script>
+{% if task_id %}
+<script type="text/javascript">
+  function processProgress(progressBarElement, progressBarMessageElement, progress) {
+    console.log(`@@@@@ ${progress.percent} processProgress @@@@@`)
+    console.log(progress)
+    progressBarElement.style.width = progress.percent + "%";
+    var description = progress.description || "アップロード中...";
+    progressBarMessageElement.innerHTML = description;
+  }
+
+
+
+  // Progress Bar (JQuery)
+  $(function () {
+    var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+    CeleryProgressBar.initProgressBar(progressUrl, {
+      onProgress: processProgress,
+    })
+  });
+</script>
+{% endif %}
 
 {% endblock %}

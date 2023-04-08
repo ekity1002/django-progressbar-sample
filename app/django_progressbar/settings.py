@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "upload_file.apps.UploadFileConfig",
+    # Celery apps
+    "celery",
+    "celery_progress",
 ]
 
 MIDDLEWARE = [
@@ -117,7 +120,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+# STATIC_URL: 静的ファイルのURLのプレフィックス
+STATIC_URL = "/static/"
+
+# STATICFILES_DIRS: 静的ファイルを探しにいくディレクトリのリスト
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

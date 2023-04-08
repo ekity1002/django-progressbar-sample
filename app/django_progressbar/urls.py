@@ -18,5 +18,6 @@ from django.urls import include, path
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path("upload/", include("upload_file.urls"))
+    path("upload/", include("upload_file.urls")),
+    path("celery-progress/", include("celery_progress.urls")),
 ]

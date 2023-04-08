@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +8,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Django-Progressbar</title>
+  <!-- jQueryの読み込み -->
+  <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
+  <!-- Celery Progress -->
+  <script src="{% static 'celery_progress/celery_progress.js' %}"></script>
 </head>
 
 <body>
