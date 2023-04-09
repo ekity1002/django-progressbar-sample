@@ -135,4 +135,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CELERY
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_REDIS_URL", default="redis://localhost:6379")
+# CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_REDIS_URL", default="redis://localhost:6379")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_REDIS_URL", default="redis://redis:6379")

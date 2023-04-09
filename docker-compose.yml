@@ -8,7 +8,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    command: poetry run python manage.py runserver 0:8000
+    volumes:
+      - ./app:/app/app
+    command: bash -c "poetry run celery -A django_progressbar worker -l INFO & poetry run python manage.py runserver 0:8000"
   redis:
     image: "redis:latest"
     container_name: redis

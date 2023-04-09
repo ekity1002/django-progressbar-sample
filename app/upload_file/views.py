@@ -24,10 +24,10 @@ def get_file_list(zip_file):
 def process_files(self, file_list):
     print(type(self))
     progress_recorder = ProgressRecorder(self)
-    # 進行状況の初期化
-    progress_recorder.set_progress(0, total_files)
 
+    # 進行状況の初期化
     total_files = len(file_list)
+    progress_recorder.set_progress(0, total_files)
     print("total files: ", total_files)
 
     # ファイルを読み込んで、内容を取得する
