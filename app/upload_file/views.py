@@ -54,7 +54,7 @@ def upload_zip_file(request):
             zip_file = request.FILES["zip_file"]
             file_list = get_file_list(zip_file)
 
-            # handle_zip_upload()を呼び出して、zipファイルを処理する
+            # ファイルを処理する
             result = process_files.delay(file_list)
 
             # zip削除
