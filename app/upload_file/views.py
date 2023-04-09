@@ -11,10 +11,9 @@ from .forms import UploadZipFileForm
 
 
 def get_file_list(zip_file):
-    # クライアントから送信されたzipファイルをメモリ上に一時的に保存する
+    # zipファイル内の全てのファイルを取得する
     buffer = BytesIO(zip_file.read())
     with zipfile.ZipFile(buffer, "r") as zip_ref:
-        # zipファイル内の全てのファイルを取得する
         files = zip_ref.namelist()
     return files
 
