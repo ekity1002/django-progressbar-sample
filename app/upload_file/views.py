@@ -6,20 +6,14 @@ from io import BytesIO
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
 from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
-from django.urls import reverse
 
 from .forms import UploadZipFileForm
-
-# Create your views here.
 
 
 def get_file_list(zip_file):
     # クライアントから送信されたzipファイルをメモリ上に一時的に保存する
     buffer = BytesIO(zip_file.read())
-
-    # zipファイルを解凍して、JSONファイルを取得する
     with zipfile.ZipFile(buffer, "r") as zip_ref:
         # zipファイル内の全てのファイルを取得する
         files = zip_ref.namelist()
@@ -27,14 +21,13 @@ def get_file_list(zip_file):
 
 
 @shared_task(bind=True)
-def handle_zip_upload(self, file_list):
+def process_files(self, file_list):
     print(type(self))
-    # 進行状況の初期化
     progress_recorder = ProgressRecorder(self)
-
-    total_files = len(file_list)
     # 進行状況の初期化
     progress_recorder.set_progress(0, total_files)
+
+    total_files = len(file_list)
     print("total files: ", total_files)
 
     # ファイルを読み込んで、内容を取得する
@@ -62,7 +55,7 @@ def upload_zip_file(request):
             file_list = get_file_list(zip_file)
 
             # handle_zip_upload()を呼び出して、zipファイルを処理する
-            result = handle_zip_upload.delay(file_list)
+            result = process_files.delay(file_list)
 
             # zip削除
             zip_file.close()
@@ -73,5 +66,4 @@ def upload_zip_file(request):
     else:
         form = UploadZipFileForm()
     # GETリクエストの場合は、ファイルアップロードのフォームを表示する
-    print("get@@@@@@")
     return render(request, "upload_file/upload.html", {"form": form})

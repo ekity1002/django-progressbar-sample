@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: poetry run python manage.py runserver 0:8000
   redis:
     image: "redis:latest"
     container_name: redis
