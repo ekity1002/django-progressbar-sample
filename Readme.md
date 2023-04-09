@@ -1,4 +1,4 @@
-# django-progressbar
+# django-progressbar-sample
 Sample of Django displaying progressbar for file upload with celery and redis.
 
 ## Environment
